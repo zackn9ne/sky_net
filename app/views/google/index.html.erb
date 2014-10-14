@@ -1,0 +1,15 @@
+<h3> Google Plus People Search </h3>
+<%= form_tag root_path, method: :get do %>
+    <%= text_field_tag :q, params[:q], placeholder: 'Search...' %>
+    <%= submit_tag 'People Search' %>
+<% end %>
+<hr/>
+
+<% if @search_results %>
+    <br/>
+    <% @search_results.each do |result| %>
+        <%=result.display_name %><br/>
+    <% end %>
+<% else %>
+    No RESULTS :-(
+<% end %>

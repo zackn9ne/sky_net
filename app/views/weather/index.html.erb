@@ -1,0 +1,119 @@
+
+<style>
+    .clearfix { clear: both; }
+    .span3 { float: left; width: 30%; border: 1px solid}
+</style>
+
+
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <h1>Hello, New York!</h1>
+    <p>Welcome to SkyNet your homepage.</p>
+    <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="bs-example">
+    <table class="table">
+      <thead>
+      <tr class="success">
+        <% @castdate.each do |d| %>
+            <th><%= Time.at(d) %></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="danger">
+        <% @forecast[:temp_basic].each do |key| %>
+            <% key.each do |k| %>
+                <td>day: <%= ( k.second - 273.15 )*9/5+32 %></td>
+            <% end %>
+        <% end %>
+      </tr>
+      <tr>
+        <% @forecast[:icon].each do |key| %>
+            <% key.each do |k| %>
+                <td>icon: <%=  k.second %></td>
+            <% end %>
+        <% end %>
+        <td>2</td>
+        <td>white Column content</td>
+        <td>white Column content</td>
+        <td>white Column content</td>
+      </tr>
+      <tr class="success">
+        <td>3</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr class="info">
+        <td>5</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr class="warning">
+        <td>7</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      <tr class="danger">
+        <td>9</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Daily's</h2>
+      <% @forecast[:temp_basic].each do |key| %>
+          <% key.each do |k| %>
+              <li>day: <%= ( k.second - 273.15 )*9/5+32 %></li>
+          <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <h2>Date</h2>
+      <% @castdate.each do |d| %>
+          <li><%= Time.at(d) %></li>
+      <% end %>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>General</h2>
+      <% @forecast[:icon].each do |key| %>
+          <% key.each do |k| %>
+              <li>icon: <%=  k.second %></li>
+          <% end %>
+      <% end %>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+  </div>
