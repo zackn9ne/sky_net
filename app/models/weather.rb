@@ -1,19 +1,13 @@
-class WeatherController < ApplicationController
-  #require 'sms_helper'
-  #SmsHelper.send_text_message(@@city_code)
-
-  before_action :authenticate_user!, only: [:index, :create]
-  #devis is important
-  @@query_api = "http://api.openweathermap.org/data/2.5/forecast/city?id="
-  @@city_code = "5128581" #new york
-  @@query_forecast_api = "http://api.openweathermap.org/data/2.5/forecast/daily?id="
+class Weather < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
 
 
-  def farenheit(kelvin)
+  def self.farenheit(kelvin)
     ( kelvin - 273.15 )*9/5+32
   end
 
-  def api_access_url
+  def self.api_access_url
     @@query_api + @@city_code + "&APPID=" + Rails.application.secrets.open_weather_map.to_s
   end
 
@@ -29,7 +23,18 @@ class WeatherController < ApplicationController
     end
   end
 
-  def get_current(url)
+  def self.get_current(url)
+
+
+    @@query_api = "http://api.openweathermap.org/data/2.5/forecast/city?id="
+    @@city_code = "5128581" #new york
+    @@query_forecast_api = "http://api.openweathermap.org/data/2.5/forecast/daily?id="
+
+    url = @@query_api + @@city_code + "&APPID=" + Rails.application.secrets.open_weather_map.to_s
+
+    @url = url
+
+
     response = JSON.load( RestClient.get url )
     city = response['city']['name']
     kelvin = response['list'][0]['main']['temp']
@@ -40,7 +45,11 @@ class WeatherController < ApplicationController
     data = { :city => city, :farenheit => farenheit, :wind => wind, :icon => icon }
   end
 
-  def get_forecast(url)
+  def self.get_forecast(url)
+    url = @@query_api + @@city_code + "&APPID=" + Rails.application.secrets.open_weather_map.to_s
+
+    @url = url
+
     response = JSON.load( RestClient.get url )
     future = response['cnt']
 
@@ -62,18 +71,7 @@ class WeatherController < ApplicationController
   def get_forecast_date(url)
     response = JSON.load( RestClient.get url )
     response['list'].map do |v|
-     v['dt']
+      v['dt']
     end
-  end
-
-  def index
-    @key_check = [api_access_url, api_forecast_url]
-    @weather = Weather.get_current( api_access_url )
-    @forecast = get_forecast( api_forecast_url )
-    @castdate = get_forecast_date( api_forecast_url )
-    @current_icon = current_icon( api_access_url )
-    #@farenheit = farenheit
-    # @weathers = weather.search_for(params[:q])
-    # go into the models and rails.rb in order to allow the .search_for method to be available in a sort of whitelisted way
   end
 end
