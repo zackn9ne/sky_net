@@ -1,6 +1,5 @@
 class WeatherController < ApplicationController
-  #require 'sms_helper'
-  #SmsHelper.send_text_message(@@city_code)
+  require 'sms_helper'
 
   before_action :authenticate_user!, only: [:index, :create]
   #devis is important
@@ -8,6 +7,7 @@ class WeatherController < ApplicationController
   @@city_code = "5128581" #new york
   @@query_forecast_api = "http://api.openweathermap.org/data/2.5/forecast/daily?id="
 
+  SmsHelper.quick_send(@@city_code, 5104097763)
 
   def farenheit(kelvin)
     ( kelvin - 273.15 )*9/5+32

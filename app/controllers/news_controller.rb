@@ -1,4 +1,6 @@
 class NewsController < ApplicationController
+  require 'sms_helper'
+
 
   def get_from(url)
     response = JSON.load( RestClient.get url )
@@ -18,6 +20,7 @@ class NewsController < ApplicationController
 
   def index
     @mashable = get_from( "mashable.com/stories.json" )
+    SmsHelper.quick_send(@mashable, 5104097763)
     # @weathers = weather.search_for(params[:q])
     # go into the models and rails.rb in order to allow the .search_for method to be available in a sort of whitelisted way
   end
